@@ -1,0 +1,68 @@
+asyncapi: '2.6.0'
+info:
+  title: Hotel Kafka API
+  version: '1.0.0'
+  description: |
+    Async messages for hotel domain
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+
+defaultContentType: application/json
+
+channels:
+  hotel_availability_searches:
+    publish:
+      summary: Publishes hotel availability search requests
+      message:
+        $ref: '#/components/messages/hotelAvailabilitySearchRequest'
+    subscribe:
+      summary: Subscribes to hotel availability search responses
+      traits:
+        - $ref: '#/components/operationTraits/kafka'
+      message:
+        $ref: '#/components/messages/hotelAvailabilitySearchRequest'
+
+
+components:
+  messages:
+    hotelAvailabilitySearchRequest:
+      name: hotelAvailabilitySearchRequest
+      title: Hotel Availability Search Request
+      summary: Request to search for hotel availability
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HotelSearchKafkaDTO'
+
+
+  schemas:
+    HotelSearchKafkaDTO:
+      type: object
+      properties:
+        searchId:
+          type: string
+        hotelId:
+          type: string
+        checkIn:
+          type: string
+          format: date
+        checkOut:
+          type: string
+          format: date
+        ages:
+          type: array
+          items:
+            type: integer
+      required:
+        - searchId
+        - hotelId
+        - checkIn
+        - checkOut
+        - ages
+
+  operationTraits:
+    kafka:
+      bindings:
+        kafka:
+          clientId: search-id

@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: Hotel Search API
+  version: 1.0.0
+paths:
+  /search:
+    post:
+      summary: Create a new hotel search
+      tags:
+        - Search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hotelId:
+                  type: string
+                  description: ID of the hotel
+                checkIn:
+                  type: string
+                  pattern: '^\d{2}/\d{2}/\d{4}$'
+                  description: Check-in date format
+                checkOut:
+                  type: string
+                  pattern: '^\d{2}/\d{2}/\d{4}$'
+                  description: Check-out date
+                ages:
+                  type: array
+                  items:
+                    type: integer
+                  description: List of ages for guests
+      responses:
+        '200':
+          description: Successful search creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  searchId:
+                    type: string
+  /count:
+    get:
+      summary: Get the number of similar searches
+      tags:
+        - Search
+      parameters:
+        - name: id
+          in: path
+          description: ID of the search to retrieve the count for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful retrieval of search count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  searchId:
+                    type: string
+                  search:
+                    type: object
+                    properties:
+                      hotelId:
+                        type: string
+                      checkIn:
+                        type: string
+                        format: date
+                      checkOut:
+                        type: string
+                        format: date
+                      ages:
+                        type: array
+                        items:
+                          type: integer
+                  count:
+                    type: integer
