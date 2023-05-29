@@ -5,7 +5,6 @@ import com.prime.hotel.application.create_search.CreateSearchCommand;
 import com.prime.hotel.domain.models.Search;
 import com.prime.hotel.infrastructure.mappers.SearchMapper;
 import com.prime.hotel.infrastructure.projections.HotelSearchKafkaDTO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
